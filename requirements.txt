@@ -1,1 +1,12 @@
+certifi==2021.5.30
+charset-normalizer==2.0.4
+chat-downloader==0.1.8
+colorlog==5.0.1
+docstring-parser==0.10
+idna==3.2
+isodate==0.6.0
+requests==2.26.0
+six==1.16.0
 SpeechRecognition==3.8.1
+urllib3==1.26.6
+websocket-client==1.2.1
