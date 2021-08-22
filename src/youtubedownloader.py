@@ -37,4 +37,5 @@ def download(link):
         ydl.download([link])
 
 
-download("https://youtu.be/TTUe13jPgKI")
+url = input("Enter youtube url: ")
+download(url)
