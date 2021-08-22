@@ -4,8 +4,8 @@ import speechrecognition as sr
 nlp = spacy.load("ja_core_news_md")
 for i in range(6):
     print(i)
-    filename = "./sample_audio/sample" + str(i + 1) + ".wav"
-    f = open("./sample_audio/sample" + str(i + 1) + ".txt", "r")
+    filename = "../sample_audio/sample" + str(i + 1) + ".wav"
+    f = open("../sample_audio/sample" + str(i + 1) + ".txt", "r")
     answer_text = f.read().strip()
     gen_text = sr.getText(filename)
     print("answer: " + answer_text)
