@@ -1,7 +1,7 @@
 from youtubedownloader import download_audio
 from chatdownloader import download_chat
 from speechrecognition import get_text
-from segmenter import save_segment
+from segmenter import Segmenter
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from os import path
@@ -13,26 +13,37 @@ delay = input("Enter delay between chat and response in seconds: ")
 url_data = urlparse(url)
 query = parse_qs(url_data.query)
 basepath = path.dirname(__file__)
-chat_output_path = path.abspath(path.join(basepath, "..", "chat", query["v"][0] + ".chat"))
-audio_output_path = path.abspath(path.join(basepath, "..", "audio", query["v"][0] + ".wav"))
-speech_output_path = path.abspath(path.join(basepath, "..", "speech", query["v"][0] + ".speech"))
+
 
 print("Downloading audio...")
+audio_output_path = path.abspath(path.join(basepath, "..", "audio", query["v"][0] + ".wav"))
 download_audio(audio_output_path, url)
+
 print("Downloading chat...")
+chat_output_path = path.abspath(path.join(basepath, "..", "chat", query["v"][0] + ".chat"))
 download_chat(chat_output_path, url)
 
-chat_file = open(chat_output_path, "r")
-chat_lines = chat_file.readLines()
+speech_output_path = path.abspath(path.join(basepath, "..", "speech", query["v"][0] + ".speech"))
 speech_file = open(speech_output_path, "w")
+
+chat_file = open(chat_output_path, "r")
+chat_lines = chat_file.readlines()
+
+seg = Segmenter()
+print("Loading audio into segmenter...")
+seg.load(audio_output_path)
+
 for line in chat_lines:
-    timestamp = float(line.split(",")[0]) * 1000 + delay * 1000
+    timestamp = float(line.split(",")[0]) * 1000
     message = line.split(",")[1]
+    segment_length = 5000
+    start = timestamp + (float(delay) * 1000)
+    end = start + segment_length
     audio_segment_output_path = path.abspath(
-        path.join(basepath, "..", "audio", query["v"][0] + "." + timestamp + ".wav")
+        path.join(basepath, "..", "audio", query["v"][0] + "." + str(start).split(".")[0] + ".segment.wav")
     )
-    segment_length = 3000
-    save_segment(audio_output_path, audio_segment_output_path, timestamp, timestamp + segment_length)
+    seg.save_segment(audio_segment_output_path, start, end)
     speech = get_text(audio_segment_output_path)
+    print(str(start / 1000) + ", " + str(end / 1000) + ", " + speech)
     speech_file.write(speech + "\n")
-speech.close()
+speech_file.close()
