@@ -1,1 +1,4 @@
 env/
+audio/*.wav
+speech/*.speech
+chat/*.chat
