@@ -22,6 +22,7 @@ def my_hook(d):
 
 def download(link):
     ydl_opts = {
+        "outtmpl" : "../audio/%(extractor)s-%(id)s-%(title)s.%(ext)s",
         "format": "bestaudio/best",
         "postprocessors": [
             {
