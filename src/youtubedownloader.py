@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import youtube_dl
+from os import path
 
 
 class MyLogger(object):
@@ -20,8 +21,10 @@ def my_hook(d):
         print(d["filename"], d["_percent_str"], d["_eta_str"])
 
 
-def download(link):
+def download_audio(link):
+    basepath = path.dirname(__file__)
     ydl_opts = {
+        "outtmpl": path.abspath(path.join(basepath, "..", "audio", "%(id)s.%(ext)s")),
         "format": "bestaudio/best",
         "postprocessors": [
             {
@@ -35,7 +38,3 @@ def download(link):
     }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([link])
-
-
-url = input("Enter youtube url: ")
-download(url)
