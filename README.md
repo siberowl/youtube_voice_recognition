@@ -5,5 +5,5 @@ Testing the usability of Google's speech recognition for Japanese streams with n
 
 ```
 make install
-python accuracy.py
+python src/main.py
 ```
