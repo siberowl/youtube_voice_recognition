@@ -1,7 +1,10 @@
 import pydub as pd
 
 
-def save_segment(input_path, output_path, start, finish):
-    audio = pd.AudioSegment.from_wav(input_path)
-    segment = audio[start:finish]
-    segment.export(output_path, format="wav")
+class Segmenter:
+    def load(self, input_path):
+        self.audio = pd.AudioSegment.from_file(input_path, format="webm")
+
+    def save_segment(self, output_path, start, finish):
+        segment = self.audio[start:finish]
+        segment.export(output_path, format="wav")
