@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 import youtube_dl
-from os import path
-
 
 class MyLogger(object):
     def debug(self, msg):
@@ -21,10 +19,9 @@ def my_hook(d):
         print(d["filename"], d["_percent_str"], d["_eta_str"])
 
 
-def download_audio(link):
-    basepath = path.dirname(__file__)
+def download_audio(output_path, url):
     ydl_opts = {
-        "outtmpl": path.abspath(path.join(basepath, "..", "audio", "%(id)s.%(ext)s")),
+        "outtmpl": output_path,
         "format": "bestaudio/best",
         "postprocessors": [
             {
@@ -37,4 +34,4 @@ def download_audio(link):
         "progress_hooks": [my_hook],
     }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([link])
+        ydl.download([url])

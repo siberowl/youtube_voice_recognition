@@ -1,9 +1,4 @@
 import speech_recognition as sr
-from urllib.parse import urlparse
-from urllib.parse import parse_qs
-from os import path
-
-
 
 def getText(audio_path):
     # initialize the recognizer
@@ -20,12 +15,7 @@ def getText(audio_path):
             return "Could not request results from Google"
 
 
-def save_speech(url):
-    url_data = urlparse(url)
-    query = parse_qs(url_data.query)
-    basepath = path.dirname(__file__)
-    filepath = path.abspath(path.join(basepath, "..", "speech", query["v"][0] + ".speech"))
-    f = open(filepath, "w")
-    audio_filepath = path.abspath(path.join(basepath, "..", "audio", query["v"][0] + ".wav"))
-    text = getText(audio_filepath)
+def save_speech(output_path, audio_path):
+    f = open(output_path, "w")
+    text = getText(audio_path)
     f.write(text)
