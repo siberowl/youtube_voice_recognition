@@ -9,6 +9,7 @@ from os import path
 # download_chat("https://www.youtube.com/watch?v=i5x64B_V7YY")
 url = input("Enter youtube url: ")
 delay = input("Enter delay between chat and response in seconds: ")
+segment_length = input("Enter the clip length in seconds: ")
 
 url_data = urlparse(url)
 query = parse_qs(url_data.query)
@@ -36,9 +37,8 @@ seg.load(audio_output_path)
 for line in chat_lines:
     timestamp = float(line.split(",")[0]) * 1000
     message = line.split(",")[1]
-    segment_length = 5000
     start = timestamp + (float(delay) * 1000)
-    end = start + segment_length
+    end = start + (float(segment_length)*1000)
     audio_segment_output_path = path.abspath(
         path.join(basepath, "..", "audio", query["v"][0] + "." + str(start).split(".")[0] + ".segment.wav")
     )
