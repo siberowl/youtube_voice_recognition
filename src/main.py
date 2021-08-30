@@ -26,12 +26,13 @@ chat_file = open(chat_output_path, "r")
 chat_lines = chat_file.readLines()
 speech_file = open(speech_output_path, "w")
 for line in chat_lines:
-    timestamp = float(line.split(",")[0]) * 1000
+    timestamp = float(line.split(",")[0]) * 1000 + delay * 1000
     message = line.split(",")[1]
     audio_segment_output_path = path.abspath(
         path.join(basepath, "..", "audio", query["v"][0] + "." + timestamp + ".wav")
     )
-    save_segment(audio_output_path, audio_segment_output_path, timestamp, timestamp + delay * 1000)
+    segment_length = 3000
+    save_segment(audio_output_path, audio_segment_output_path, timestamp, timestamp + segment_length)
     speech = get_text(audio_segment_output_path)
     speech_file.write(speech + "\n")
 speech.close()
