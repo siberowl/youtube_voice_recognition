@@ -1,4 +1,4 @@
-# Kotoe Alt Data Collection Automation
+# Youtube data collection automation
 Testing the usability of Google's speech recognition for Japanese streams with noisy audio.
 
 ## Running it
